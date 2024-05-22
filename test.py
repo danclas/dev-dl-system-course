@@ -1,17 +1,23 @@
-# Import SixDRepNet
+import sys
+import traceback
+
+import torch
 from sixdrepnet import SixDRepNet
 import cv2
 
-# Create model
-# Weights are automatically downloaded
-model = SixDRepNet()
 
-img = cv2.imread('/path/to/image.jpg')
+def smoke_test():
+    device = 0 if torch.cuda.is_available() else -1
+    model = SixDRepNet(device)
+    img = cv2.imread('test_image.jpg')
+    pitch, yaw, roll = model.predict(img)
 
-pitch, yaw, roll = model.predict(img)
 
-model.draw_axis(img, yaw, pitch, roll)
-
-cv2.imshow("test_window", img)
-cv2.waitKey(0)
-
+if __name__ == '__main__':
+    try:
+        smoke_test()
+        print("Smoke test passed")
+    except Exception as e:
+        print("Smoke test failed with traceback: ")
+        traceback.print_exc()
+        sys.exit(1)
