@@ -24,9 +24,7 @@ if __name__ == '__main__':
     for i in range(length):
         ret, frame = cap_input_test_video.read()
         if ret:
-            frame = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
             pitch, yaw, roll = model.predict(frame)
-            frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
             x_min = int(.15 * video_width)
             x_max = int(.2 * video_width)
             y_min = int(.2 * video_height)
